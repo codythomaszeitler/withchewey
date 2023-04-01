@@ -9,30 +9,6 @@ import org.junit.Test;
 public class TrappingRainWaterTest {
 
     @Test
-    public void testSmallSpeedBumps() {
-        int[] heights = new int[] { 1, 0, 1, 0, 1, 0, 1 };
-        List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
-
-        assertEquals(4, convexes.size());
-    }
-
-    @Test
-    public void testSmallSpeedBumpsBigGap() {
-        int[] heights = new int[] { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 };
-        List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
-
-        assertEquals(4, convexes.size());
-    }
-
-    @Test
-    public void testSuperSmallConvexCall() {
-        int[] heights = new int[] { 5, 5 };
-        List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
-
-        assertEquals(2, convexes.size());
-    }
-
-    @Test
     public void testSingularSquareBucket() {
         int[] heights = new int[] { 5, 0, 0, 0, 5 };
 
@@ -40,36 +16,6 @@ public class TrappingRainWaterTest {
         int actual = solution.trap(heights);
 
         assertEquals(15, actual);
-    }
-
-    @Test
-    public void testSimpleCalculate() {
-        int[] heights = new int[] { 5, 0, 0, 0, 5 };
-
-        int actual = TrappingRainWater.calculate(new TrappingRainWater.Convex(0), new TrappingRainWater.Convex(4),
-                heights);
-
-        assertEquals(15, actual);
-    }
-
-    @Test
-    public void testSimpleCalculateWithBumpyUnderneath() {
-        int[] heights = new int[] { 5, 2, 0, 3, 5 };
-
-        int actual = TrappingRainWater.calculate(new TrappingRainWater.Convex(0), new TrappingRainWater.Convex(4),
-                heights);
-
-        assertEquals(10, actual);
-    }
-
-    @Test
-    public void testSimpleCalculateAllFilled() {
-        int[] heights = new int[] { 5, 5, 5, 5, 5 };
-
-        int actual = TrappingRainWater.calculate(new TrappingRainWater.Convex(0), new TrappingRainWater.Convex(4),
-                heights);
-
-        assertEquals(0, actual);
     }
 
     @Test
