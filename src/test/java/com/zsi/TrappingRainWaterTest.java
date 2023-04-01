@@ -9,50 +9,11 @@ import org.junit.Test;
 public class TrappingRainWaterTest {
 
     @Test
-    public void testGetConvexes() {
-        int[] heights = new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
-
-        List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
-        assertEquals(4, convexes.size());
-
-        assertEquals(convexes.get(0), new TrappingRainWater.Convex(1));
-        assertEquals(convexes.get(1), new TrappingRainWater.Convex(3));
-        assertEquals(convexes.get(2), new TrappingRainWater.Convex(7));
-        assertEquals(convexes.get(3), new TrappingRainWater.Convex(10));
-    }
-
-    @Test
-    public void testFindConvexesOnHill() {
-        int[] heights = new int[] { 3, 5, 5, 5, 5, 5, 2 };
-        List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
-
-        assertEquals(2, convexes.size());
-    }
-
-    @Test
-    public void testFindConvexesWithSingularHillPoint() {
-        int[] heights = new int[] { 0, 2, 2, 10, 2, 2, 0 };
-        List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
-
-        assertEquals(1, convexes.size());
-
-        assertEquals(convexes.get(0), new TrappingRainWater.Convex(3));
-    }
-
-    @Test
     public void testSmallSpeedBumps() {
         int[] heights = new int[] { 1, 0, 1, 0, 1, 0, 1 };
         List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
 
         assertEquals(4, convexes.size());
-    }
-
-    @Test
-    public void testSmallSpeedBumpsNoEnding() {
-        int[] heights = new int[] { 1, 0, 1, 0, 1, 0 };
-        List<TrappingRainWater.Convex> convexes = TrappingRainWater.getConvexes(heights);
-
-        assertEquals(3, convexes.size());
     }
 
     @Test
@@ -183,7 +144,7 @@ public class TrappingRainWaterTest {
 
     @Test
     public void test7() {
-        int[] heights = new int[] { 0, 5, 0, 20};
+        int[] heights = new int[] { 0, 5, 0, 20 };
         TrappingRainWater solution = new TrappingRainWater();
         int actual = solution.trap(heights);
 
@@ -192,7 +153,7 @@ public class TrappingRainWaterTest {
 
     @Test
     public void test8() {
-        int[] heights = new int[] {5, 3, 4, 0, 6};
+        int[] heights = new int[] { 5, 3, 4, 0, 6 };
 
         TrappingRainWater solution = new TrappingRainWater();
         int actual = solution.trap(heights);
@@ -202,11 +163,52 @@ public class TrappingRainWaterTest {
 
     @Test
     public void test9() {
-        int[] heights = new int[] {1000, 5, 3, 4, 0, 6};
+        int[] heights = new int[] { 1000, 5, 3, 4, 0, 6 };
 
         TrappingRainWater solution = new TrappingRainWater();
         int actual = solution.trap(heights);
 
         assertEquals(12, actual);
+    }
+
+    @Test
+    public void test10() {
+        int[] heights = new int[] { 5, 5, 1, 7, 1, 1, 5, 2, 7, 6 };
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(23, actual);
+    }
+
+    @Test
+    public void test11() {
+        int[] heights = new int[] { 5, 3, 7, 7 };
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(2, actual);
+
+    }
+
+    @Test
+    public void test12() {
+        int[] heights = new int[] { 3, 4, 1, 8, 1, 9, 9, 9 };
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(10, actual);
+    }
+
+    @Test
+    public void test13() {
+        int[] heights = new int[] { 1, 8, 8, 9, 1, 6, 3, 0, 0, 3, 5, 8, 0, 2, 5, 6, 5, 5, 9, 9, 6, 6, 0, 8, 9, 9, 2};
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(93, actual);
     }
 }

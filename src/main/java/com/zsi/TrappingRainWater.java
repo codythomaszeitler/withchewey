@@ -18,47 +18,42 @@ public class TrappingRainWater {
 
         int aggregate = 0;
 
-        int index = 0;
-        while (index < initial.size() - 1) {
-            AggregateResult result = findNextHighestConvex(initial, height, index);
+        int i = 0;
+        while (i < initial.size() - 1) {
+            int nhi = findNextHighestIndex(initial, height, i);
 
-            aggregate += result.aggregate;
-            index = result.endingIndex;
+            Convex left = initial.get(i);
+            Convex right = initial.get(nhi);
+
+            aggregate += calculate(left, right, height);
+
+            i = nhi;
         }
 
         return aggregate;
     }
 
-    public static AggregateResult findNextHighestConvex(List<Convex> convexes, int[] heights,
-            int startIndex) {
-        int starting = heights[convexes.get(startIndex).index];
+    public static int findNextHighestIndex(List<Convex> convexes, int[] heights, int si) {
+        int s = heights[convexes.get(si).index];
 
-        int aggregate = 0;
-        for (int i = startIndex, j = startIndex + 1; j < convexes.size(); i++, j++) {
-            Convex left = convexes.get(i);
-            Convex right = convexes.get(j);
+        int h = -1;
+        int hi = -1;
 
-            aggregate += calculate(left, right, heights);
+        for (int i = si + 1; i < convexes.size(); i++) {
+            Convex convex = convexes.get(i);
+            int c = heights[convex.index];
 
-            int current = heights[right.index];
+            if (c >= h) {
+                h = c;
+                hi = i;
+            }
 
-            if (starting <= current) {
-                AggregateResult result = new AggregateResult();
-                result.aggregate = calculate(convexes.get(startIndex), right, heights);
-                result.endingIndex = j;
-                return result;
+            if (c >= s) {
+                return i;
             }
         }
 
-        AggregateResult result = new AggregateResult();
-        result.aggregate = aggregate;
-        result.endingIndex = convexes.size() - 1;
-        return result;
-    }
-
-    public static class AggregateResult {
-        public int aggregate;
-        public int endingIndex;
+        return hi;
     }
 
     public static int calculate(Convex left, Convex right, int[] heights) {
@@ -87,6 +82,7 @@ public class TrappingRainWater {
         }
 
         Convex maybeConvex = null;
+
         for (int i = 0; i < heights.length; i++) {
 
             int middle = heights[i];
@@ -115,9 +111,18 @@ public class TrappingRainWater {
                     if (maybeConvex != null) {
                         convexes.add(maybeConvex);
                         convexes.add(new Convex(i));
+                        maybeConvex = null;
                     }
                 }
             }
+        }
+
+        if (!convexes.contains(new Convex(0))) {
+            convexes.add(0, new Convex(0));
+        }
+
+        if (!convexes.contains(new Convex(heights.length - 1)) ){
+            convexes.add(new Convex(heights.length - 1));
         }
 
         return convexes;
@@ -141,6 +146,10 @@ public class TrappingRainWater {
 
             Convex casted = (Convex) o;
             return this.index == casted.index;
+        }
+
+        public String toString() {
+            return this.index + "";
         }
     }
 }
