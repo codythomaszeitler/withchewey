@@ -3,7 +3,6 @@ package com.zsi;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
 
@@ -131,5 +130,83 @@ public class TrappingRainWaterTest {
         int actual = solution.trap(heights);
 
         assertEquals(6, actual);
+    }
+
+    @Test
+    public void test2() {
+        int[] heights = new int[] { 0, 1 };
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(0, actual);
+    }
+
+    @Test
+    public void test3() {
+        int[] heights = new int[] { 1 };
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(0, actual);
+    }
+
+    @Test
+    public void test4() {
+        int[] heights = new int[] { 20, 0, 5 };
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(5, actual);
+    }
+
+    @Test
+    public void test5() {
+        int[] heights = new int[] { 5, 0, 20 };
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(5, actual);
+    }
+
+    @Test
+    public void test6() {
+        int[] heights = new int[] { 0, 5, 0, 20, 0 };
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(5, actual);
+    }
+
+    @Test
+    public void test7() {
+        int[] heights = new int[] { 0, 5, 0, 20};
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(5, actual);
+    }
+
+    @Test
+    public void test8() {
+        int[] heights = new int[] {5, 3, 4, 0, 6};
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(8, actual);
+    }
+
+    @Test
+    public void test9() {
+        int[] heights = new int[] {1000, 5, 3, 4, 0, 6};
+
+        TrappingRainWater solution = new TrappingRainWater();
+        int actual = solution.trap(heights);
+
+        assertEquals(12, actual);
     }
 }

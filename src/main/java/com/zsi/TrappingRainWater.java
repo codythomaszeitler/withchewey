@@ -6,40 +6,59 @@ import java.util.List;
 public class TrappingRainWater {
 
     public int trap(int[] height) {
+        if (height.length == 1) {
+            return 0;
+        }
+
+        if (height.length == 2) {
+            return 0;
+        }
+
         List<Convex> initial = getConvexes(height);
 
-        int[] peaks = new int[initial.size()];
-        for (int i = 0; i < initial.size(); i++) {
-            int index = initial.get(i).index;
-            peaks[i] = height[index];
+        int aggregate = 0;
+
+        int index = 0;
+        while (index < initial.size() - 1) {
+            AggregateResult result = findNextHighestConvex(initial, height, index);
+
+            aggregate += result.aggregate;
+            index = result.endingIndex;
         }
 
-        List<Convex> completed = getConvexes(peaks);
+        return aggregate;
+    }
 
-        List<Convex> toComputeWith = new ArrayList<>();
-        if (!completed.contains(initial.get(0))) {
-            toComputeWith.add(initial.get(0));
+    public static AggregateResult findNextHighestConvex(List<Convex> convexes, int[] heights,
+            int startIndex) {
+        int starting = heights[convexes.get(startIndex).index];
+
+        int aggregate = 0;
+        for (int i = startIndex, j = startIndex + 1; j < convexes.size(); i++, j++) {
+            Convex left = convexes.get(i);
+            Convex right = convexes.get(j);
+
+            aggregate += calculate(left, right, heights);
+
+            int current = heights[right.index];
+
+            if (starting <= current) {
+                AggregateResult result = new AggregateResult();
+                result.aggregate = calculate(convexes.get(startIndex), right, heights);
+                result.endingIndex = j;
+                return result;
+            }
         }
 
-        for (Convex a : completed) {
-            Convex b = initial.get(a.index);
-            toComputeWith.add(b);
-        }
+        AggregateResult result = new AggregateResult();
+        result.aggregate = aggregate;
+        result.endingIndex = convexes.size() - 1;
+        return result;
+    }
 
-        if (!completed.contains(initial.get(initial.size() - 1))) {
-            toComputeWith.add(initial.get(initial.size() - 1));
-        }
-
-        int capturedWater = 0;
-
-        for (int i = 0; i < toComputeWith.size() - 1; i++) {
-            Convex left = toComputeWith.get(i);
-            Convex right = toComputeWith.get(i + 1);
-
-            capturedWater += calculate(left, right, height);
-        }
-
-        return capturedWater;
+    public static class AggregateResult {
+        public int aggregate;
+        public int endingIndex;
     }
 
     public static int calculate(Convex left, Convex right, int[] heights) {
@@ -47,7 +66,7 @@ public class TrappingRainWater {
         int box = (right.index - left.index - 1) * lower;
 
         for (int i = left.index + 1; i < right.index; i++) {
-            box -= heights[i];
+            box -= Math.min(lower, heights[i]);
         }
 
         return box;
