@@ -1,105 +1,77 @@
 package com.zsi;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditDistance {
+
+    private Map<String, Integer> saved;
+
+    public EditDistance() {
+        this.saved = new HashMap<>();
+    }
+
     public int minDistance(String word1, String word2) {
-
-        LinkedList<Character> w1ll;
-        LinkedList<Character> w2ll;
-        if (word1.length() >= word2.length()) {
-            w1ll = intoCharLinkedList(word1);
-            w2ll = intoCharLinkedList(word2);
-        } else {
-            w1ll = intoCharLinkedList(word2);
-            w2ll = intoCharLinkedList(word1);
+        if (this.saved.containsKey(word1)) {
+            return this.saved.get(word1);
         }
 
-        int absoluteMin = getAbsMin(w1ll, w2ll);
-
-        int aggregate = 0;
-        while (!w1ll.isEmpty() && !w2ll.isEmpty()) {
-            Character goal = w2ll.peek();
-
-            Character terminator = null;
-            if (w2ll.size() != 1) {
-                terminator = w2ll.get(1);
-            }
-
-            int gap = findChar(goal, terminator, w1ll);
-            if (gap != -1) {
-                for (int i = 0; i < gap; i++) {
-                    w1ll.pop();
-                    aggregate++;
-                }
-            } else if (w1ll.size() >= w2ll.size()) {
-                w1ll.set(0, goal);
-                aggregate++;
-            } else {
-                w2ll.pop();
-                aggregate++;
-            }
-
-            w1ll.pop();
-            w2ll.pop();
+        if (word1.equals(word2)) {
+            this.saved.put(word1, 0);
+            return 0;
         }
 
-        if (!w1ll.isEmpty()) {
-            while (!w1ll.isEmpty()) {
-                w1ll.pop();
-                aggregate++;
-            }
-        } else if (!w2ll.isEmpty()) {
-            while (!w2ll.isEmpty()) {
-                w2ll.pop();
-                aggregate++;
+        if (word2.startsWith(word1)) {
+            int minDistance = word2.length() - word1.length();
+            this.saved.put(word1, minDistance);
+            return minDistance;
+        }
+
+        if (word1.startsWith(word2)) {
+            int minDistance = word1.length() - word2.length();
+            this.saved.put(word1, minDistance);
+            return minDistance;
+        }
+
+        int length = Math.min(word1.length(), word2.length());
+        int minDistance = Integer.MAX_VALUE;
+        for (int i = 0; i < length; i++) {
+            if (word1.charAt(i) != word2.charAt(i)) {
+                String deleted = delete(word1, i);
+                minDistance = Math.min(minDistance(deleted, word2) + 1, minDistance);
+
+                String replaced = replace(word1, word2.charAt(i), i);
+                minDistance = Math.min(minDistance(replaced, word2) + 1, minDistance);
+
+                String inserted = insert(word1, word2.charAt(i), i);
+                minDistance = Math.min(minDistance(inserted, word2) + 1, minDistance);
+
+                break;
             }
         }
 
-        return Math.min(aggregate, absoluteMin);
+        this.saved.put(word1, minDistance);
+
+        return minDistance;
     }
 
-    private int getAbsMin(LinkedList<Character> longer, LinkedList<Character> shorter) {
+    private String delete(String word, int i) {
+        StringBuilder builder = new StringBuilder(word);
+        builder.deleteCharAt(i);
 
-        Iterator<Character> longerItr = longer.iterator();
-        Iterator<Character> shorterItr = shorter.iterator();
-
-        int min = 0;
-        while (shorterItr.hasNext()) {
-            if (shorterItr.next() != longerItr.next()) {
-                min++;
-            }
-        }
-
-        return min + (longer.size() - shorter.size());
+        return builder.toString();
     }
 
-    private LinkedList<Character> intoCharLinkedList(String word) {
-        LinkedList<Character> characters = new LinkedList<>();
-
-        for (Character c : word.toCharArray()) {
-            characters.add(c);
-        }
-
-        return characters;
+    private String replace(String word, char character, int i) {
+        StringBuilder builder = new StringBuilder(word);
+        builder.setCharAt(i, character);
+        return builder.toString();
     }
 
-    private int findChar(Character goal, Character terminator, LinkedList<Character> characters) {
-
-        int gap = 0;
-
-        for (Character current : characters) {
-            if (current == goal) {
-                return gap;
-            }
-
-            if (terminator != null && current == terminator) {
-                return -1;
-            }
-
-            gap++;
-        }
-        return -1;
+    private String insert(String word, char character, int i) {
+        StringBuilder builder = new StringBuilder(word);
+        builder.insert(i, character);
+        return builder.toString();
     }
+
 }

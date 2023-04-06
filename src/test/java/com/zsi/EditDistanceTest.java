@@ -7,6 +7,52 @@ import org.junit.Test;
 public class EditDistanceTest {
 
     @Test
+    public void testSameLengthBaseCase() {
+        String a = "abc";
+        String b = "abc";
+
+        EditDistance testObject = new EditDistance();
+        assertEquals(0, testObject.minDistance(a, b));
+    }
+
+    @Test
+    public void testBIsLongerThanAButSamePrefix() {
+        String a = "abc";
+        String b = "abcde";
+
+        EditDistance testObject = new EditDistance();
+        assertEquals(2, testObject.minDistance(a, b));
+    }
+
+    @Test
+    public void testAIsLongerThanBButSameSamePrefix() {
+        String a = "abcde";
+        String b = "abc";
+
+        EditDistance testObject = new EditDistance();
+        assertEquals(2, testObject.minDistance(a, b));
+    }
+
+    @Test
+    public void testReplacingOneLetter() {
+        String a = "a";
+        String b = "b";
+
+        EditDistance testObject = new EditDistance();
+        assertEquals(1, testObject.minDistance(a, b));
+    }
+
+    @Test
+    public void itShouldBeAbleToTurnEmptyStringIntoGoal() {
+
+        String a = "";
+        String b = "abc";
+
+        EditDistance testObject = new EditDistance();
+        assertEquals(3, testObject.minDistance(a, b));
+    }
+
+    @Test
     public void test1() {
         String a = "horse";
         String b = "ros";
@@ -40,6 +86,6 @@ public class EditDistanceTest {
         EditDistance testObject = new EditDistance();
         assertEquals(6, testObject.minDistance(word1, word2));
 
-
     }
+
 }
