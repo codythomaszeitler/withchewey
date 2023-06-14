@@ -2,8 +2,6 @@ package com.zsi;
 
 import java.util.Arrays;
 
-import javax.security.auth.kerberos.KerberosCredMessage;
-import javax.swing.text.GapContent;
 
 public class FindMedianSortedArray {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
