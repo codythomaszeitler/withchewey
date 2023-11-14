@@ -1,8 +1,5 @@
 package com.zsi;
 
-import java.util.Arrays;
-
-
 public class FindMedianSortedArray {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int length = nums1.length + nums2.length;
