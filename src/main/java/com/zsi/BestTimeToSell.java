@@ -1,11 +1,8 @@
 package com.zsi;
 
-import java.util.ArrayList;
-
 public class BestTimeToSell {
 
     private int[][] cache;
-    // private boolean runCache;        
 
     public int maxProfit(int[] prices) {
         if (prices.length == 0) {
